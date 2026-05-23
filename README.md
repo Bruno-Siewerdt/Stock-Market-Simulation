@@ -1,0 +1,1 @@
+A tool for making stock market historical analysis, simulation how different strategies would perform in the last years
