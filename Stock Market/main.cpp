@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <filesystem> // C++17 necessary
 
+#include "Market.hpp"
+
 namespace fs = std::filesystem;
 
 static void print(const std::string& content) {
@@ -25,7 +27,7 @@ static bool integrateData() { // Downloads online data about selected stocks
 	std::string command = ".venv\\Scripts\\python.exe data/integrator.py";
 	int result = std::system(command.c_str());
 	if (result != 0) {
-		printError("Critical Error: it was not possible to download the historical data");
+		printError("Critical Error: it was not possible to download the historical data"); 
 		return false;
 	}
 	return true;
@@ -39,7 +41,7 @@ int main() {
 	}
 	print("Historical data successfully integrated");
 
-
+	Market market = Market();
 
 	return 0;
 }
