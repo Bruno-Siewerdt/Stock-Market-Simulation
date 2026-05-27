@@ -11,6 +11,6 @@ private:
 
 
 public:
-	static std::string readCsvLine(const std::string& file, int line);
+	static std::string readCsvLine(const std::string& ticker, int line);
 	static double getMetric(std::string& line);
 };

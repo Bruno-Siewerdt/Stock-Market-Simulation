@@ -34,6 +34,7 @@ public:
 	void printStocks(); // testing
 
 	void updatePrices();
+	void fillMetrics(std::string line, Stock& stock);
 	double getHighPrice(std::string ticker) const;
 	double getLowPrice(std::string ticker) const;
 	double getOpenPrice(std::string ticker) const;

@@ -1,9 +1,28 @@
 #include "CsvReader.hpp"
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <filesystem> // C++17 necessary
 
-std::string CsvReader::readCsvLine(const std::string& file, int line) {
-	 // ler linha específica do CSV
-	return "";
+namespace fs = std::filesystem;
+
+std::string CsvReader::readCsvLine(const std::string& ticker, int line) {
+    std::ifstream file("./data/" + ticker + "_precos.csv");
+    if (!file.is_open()) {
+        std::cerr << "Erro ao abrir o arquivo " << ticker << "" << "\n";
+        return "";
+    }
+
+    std::string res = "";
+    int currentLine = 0;
+
+    while (std::getline(file, res) && line > currentLine) {
+        currentLine++;
+    }
+
+    file.close();
+	return res;
 }
 
 double CsvReader::getMetric(std::string& line) {

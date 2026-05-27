@@ -33,6 +33,8 @@ static bool integrateData() { // Downloads online data about selected stocks
 	return true;
 }
 
+/* ----------------- MAIN CODE ----------------- */
+
 int main() {
 	print("Initializing Analysis");
 	if (!integrateData()) {
@@ -42,6 +44,9 @@ int main() {
 	print("Historical data successfully integrated");
 
 	Market market = Market();
+	market.printStocks();
+	market.updatePrices();
+	market.printStocks();
 
 	return 0;
 }

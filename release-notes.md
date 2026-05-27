@@ -1,3 +1,6 @@
+### v0.3 - 27/05/2026
+- Created system to automatically read data from stocks csv;
+
 ### v0.2 - 24/05/2026
 - Created function for updating stocks metrics;
 
