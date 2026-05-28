@@ -133,6 +133,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Market.cpp" />
     <ClCompile Include="Strategy.cpp" />
+    <ClCompile Include="StrategyBuyMonthly.cpp" />
     <ClCompile Include="Wallet.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="CsvReader.hpp" />
     <ClInclude Include="Market.hpp" />
     <ClInclude Include="Strategy.hpp" />
+    <ClInclude Include="StrategyBuyMonthly.h" />
     <ClInclude Include="Wallet.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -49,7 +49,7 @@ void Market::createStocks() {
 			}
 		}
 		else {
-			std::cerr << "Error: Data Folder not found\n";
+			std::cerr << "Error: Data  Folder not found\n";
 		}
 	}
 	catch (const fs::filesystem_error& e) {
@@ -57,17 +57,18 @@ void Market::createStocks() {
 	}
 }
 
-void Market::updatePrices() {
+bool Market::updatePrices() {
 	date++;
+	bool result = true;
 	for (auto& stock : stocks) {
 		std::string line = CsvReader::readCsvLine(stock.first, date+1); // first line is header, date = 0 must read second line
-		fillMetrics(line, stock.second);
+		result &= fillMetrics(line, stock.second);
 	}
 }
 
-void Market::fillMetrics(std::string line, Stock& stock) {
+bool Market::fillMetrics(std::string line, Stock& stock) {
 	// CSV header:
-	// Date,Open,High,Low,Close,Volume,Dividends,Stock Splits
+	// Date,Open,High,Low,Close,Volume,Dividends,Stock Spts
 	for (int i = 0; i < 8; i++) {
 		double metric = CsvReader::getMetric(line);
 		switch (i) {

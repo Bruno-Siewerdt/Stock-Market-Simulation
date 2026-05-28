@@ -24,17 +24,18 @@ class Market {
 private:
 	int date; // months since Jan 2000
 	std::map<std::string, Stock> stocks; // optimize?
-
-	void createStocks();
+	
+	
+	void createStocks(); // Read all the existing CSV files and creates structs based on them
+	bool fillMetrics(std::string line, Stock& stock); // Read the line and complete the metrics (prices and dividends)
 
 public:
 	Market();
 	~Market();
 
-	void printStocks(); // testing
+	void printStocks(); // Prints a table with all the stocks and metrics, used for testing
+	bool updatePrices(); // advance one month and update the prices
 
-	void updatePrices();
-	void fillMetrics(std::string line, Stock& stock);
 	double getHighPrice(std::string ticker) const;
 	double getLowPrice(std::string ticker) const;
 	double getOpenPrice(std::string ticker) const;

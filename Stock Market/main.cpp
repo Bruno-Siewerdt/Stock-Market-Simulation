@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <filesystem> // C++17 necessary
 
-#include "Market.hpp"
+#include "BacktestSimulator.hpp"
 
 namespace fs = std::filesystem;
 
@@ -43,10 +43,9 @@ int main() {
 	}
 	print("Historical data successfully integrated");
 
-	Market market = Market();
-	market.printStocks();
-	market.updatePrices();
-	market.printStocks();
+	BacktestSimulator simulator = BacktestSimulator();
+
+	while (simulator.simulate()) {}
 
 	return 0;
 }
