@@ -132,7 +132,6 @@
     <ClCompile Include="CsvReader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Market.cpp" />
-    <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="StrategyBuyMonthly.cpp" />
     <ClCompile Include="Wallet.cpp" />
   </ItemGroup>

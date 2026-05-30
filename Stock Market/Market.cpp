@@ -13,24 +13,9 @@ Market::~Market() {
 	stocks.clear();
 }
 
-double Market::getHighPrice(std::string ticker) const {
-	return stocks.at(ticker).highPrice;
-}
-
-double Market::getLowPrice(std::string ticker) const {
-	return stocks.at(ticker).lowPrice;
-}
-
-double Market::getClosePrice(std::string ticker) const {
-	return stocks.at(ticker).closePrice;
-}
-
-double Market::getOpenPrice(std::string ticker) const {
-	return stocks.at(ticker).openPrice;
-}
-
-double Market::getDividends(std::string ticker) const {
-	return stocks.at(ticker).dividends;
+Market& Market::getInstance() {
+	static Market instance;
+	return instance;
 }
 
 void Market::createStocks() {
@@ -40,11 +25,11 @@ void Market::createStocks() {
 			for (const auto& entry : fs::directory_iterator(path)) {
 				std::string fileName = entry.path().filename().string();
 				if (fileName.find("_precos") != -1) {
-					Stock stock;
-					stock.ticker = fileName.substr(0, fileName.find('_'));
-					std::string line = CsvReader::readCsvLine(stock.ticker, 1);
+					MarketStock stock;
+					std::string ticker = fileName.substr(0, fileName.find('_'));
+					std::string line = CsvReader::readCsvLine(ticker, 1);
 					fillMetrics(line, stock);
-					stocks.insert(std::pair<std::string, Stock>(stock.ticker, stock));
+					stocks.insert(std::pair<std::string, MarketStock>(ticker, stock));
 				}
 			}
 		}
@@ -62,13 +47,20 @@ bool Market::updatePrices() {
 	bool result = true;
 	for (auto& stock : stocks) {
 		std::string line = CsvReader::readCsvLine(stock.first, date+1); // first line is header, date = 0 must read second line
-		result &= fillMetrics(line, stock.second);
+		if (line.length() < 2) {
+			result = false;
+		}
+		fillMetrics(line, stock.second);
 	}
+	return result;
 }
 
-bool Market::fillMetrics(std::string line, Stock& stock) {
+void Market::fillMetrics(std::string line, MarketStock& stock) {
+	if (line.length() < 2) {
+		return;
+	}
 	// CSV header:
-	// Date,Open,High,Low,Close,Volume,Dividends,Stock Spts
+	// Date,Open,High,Low,Close,Volume,Dividends,StockSplits
 	for (int i = 0; i < 8; i++) {
 		double metric = CsvReader::getMetric(line);
 		switch (i) {
@@ -93,11 +85,31 @@ bool Market::fillMetrics(std::string line, Stock& stock) {
 	}
 }
 
+double Market::getHighPrice(std::string ticker) const {
+	return stocks.at(ticker).highPrice;
+}
+
+double Market::getLowPrice(std::string ticker) const {
+	return stocks.at(ticker).lowPrice;
+}
+
+double Market::getClosePrice(std::string ticker) const {
+	return stocks.at(ticker).closePrice;
+}
+
+double Market::getOpenPrice(std::string ticker) const {
+	return stocks.at(ticker).openPrice;
+}
+
+double Market::getDividends(std::string ticker) const {
+	return stocks.at(ticker).dividends;
+}
 
 void Market::printStocks() {
+	std::cout << "-------------------- " << date%12 << "/" << (2000 + date/12) << " --------------------" << std::endl;
 	std::cout << "Ticker | LowPrice | HighPrice | OpenPrice | ClosePrice | Dividends" << std::endl;
 	for (auto& stock : stocks) {
-		std::cout << stock.second.ticker << " | ";
+		std::cout << stock.first << " | ";
 		std::cout << stock.second.lowPrice << " | ";
 		std::cout << stock.second.highPrice << " | ";
 		std::cout << stock.second.openPrice << " | ";

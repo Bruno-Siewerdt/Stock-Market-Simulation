@@ -4,6 +4,7 @@
 #include <filesystem> // C++17 necessary
 
 #include "BacktestSimulator.hpp"
+#include "Strategy.hpp"
 
 namespace fs = std::filesystem;
 
@@ -43,7 +44,7 @@ int main() {
 	}
 	print("Historical data successfully integrated");
 
-	BacktestSimulator simulator = BacktestSimulator();
+	BacktestSimulator simulator = BacktestSimulator(StrategyType::BUY_MONTHLY);
 
 	while (simulator.simulate()) {}
 

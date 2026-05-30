@@ -1,3 +1,6 @@
+### v0.5 - 30/05/2026
+- Finished monthlyBuy strategy implementation;
+
 ### v0.4 - 28/05/2026
 - Created structure of Strategies;
 

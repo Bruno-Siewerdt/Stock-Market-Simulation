@@ -21,9 +21,6 @@
     <ClCompile Include="Wallet.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Strategy.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="CsvReader.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
