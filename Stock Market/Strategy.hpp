@@ -7,13 +7,15 @@
 
 #include "Wallet.hpp"
 
-enum StrategyType {
-	BUY_MONTHLY
-};
-
 class Strategy {
 private:
 
 public:
 	virtual void buyStocks(Wallet& wallet) {}; // Runs the strategy to decide with Stock to buy and runs it
+	virtual void applyInflation(double inflationRate) {};
+
+	std::vector<double> walletValue;
+	std::vector<double> investedMoney;
+	std::vector<double> totalDividends;
+	std::vector<double> monthlyDividends;
 };

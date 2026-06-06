@@ -12,20 +12,28 @@
 
 #pragma once
 
+#include <vector>
+
+struct Simulator {
+	Wallet wallet;
+	Strategy* strategy;
+
+	Simulator(double monthlyInput, std::vector<std::string> stocks);
+	~Simulator() { delete strategy; }
+};
+
 class BacktestSimulator {
 private:
-	Wallet wallet;
-	Strategy *strategy;
-
-	int date; // months since Jan 2000
-	double earnedDividends;
+	std::vector<Simulator*> simulators; // change for smart pointer
+	bool considerInflation = true;
 
 public:
-	BacktestSimulator(StrategyType type);
+	BacktestSimulator();
 	~BacktestSimulator();
 
 	/*Simulates one month of the market, return false if the data ends*/
 	bool simulate();
+	void printResults();
 
 	static void printMoney(double value);
 };

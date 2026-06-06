@@ -11,12 +11,17 @@
 
 #include "CsvReader.hpp"
 
+#define MEAN_INFLATION 0.08
+
 struct MarketStock {
 	double highPrice = 0;
 	double lowPrice = 0;
 	double openPrice = 0;
 	double closePrice = 0;
 	double dividends = 0;
+	int delayDate = 0; // months since April 1993 until the stock release in the market
+
+	void findDelayDate(std::string strDate);
 };
 
 class Market {
@@ -41,6 +46,10 @@ public:
 
 	void printStocks(); // Prints a table with all the stocks and metrics, used for testing
 	bool updatePrices(); // advance one month and update the prices
+	bool isStockAvailable(std::string ticker);
+	int getAvailableStocksCount(std::vector<std::string> stockList);
+	std::string getFormatedDate();
+	int getDate();
 
 	double getHighPrice(std::string ticker) const;
 	double getLowPrice(std::string ticker) const;

@@ -1,3 +1,8 @@
+### v0.6 -06/06/2026
+- Improved output log;
+- Added output graphs;
+- Added multiple wallet simulations at the same time;
+
 ### v0.5 - 30/05/2026
 - Finished monthlyBuy strategy implementation;
 

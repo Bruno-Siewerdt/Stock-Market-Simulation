@@ -7,11 +7,14 @@ class StrategyBuyMonthly : public Strategy {
 private:
 	int monthlyInput;
 	double money = 0;
-
-	const std::vector<std::string> STOCKS_TO_BUY = {"BBAS3.SA", "PETR4.SA"};
+	
+	std::vector<std::string> stocksToBuy;
+	double addDividends(Wallet& wallet, double dividends);
 
 public:
-	StrategyBuyMonthly(int monthlyInput);
+	StrategyBuyMonthly(int monthlyInput, std::vector<std::string> stocksToBuy);
 	void buyStocks(Wallet& wallet) override;
+
+	void applyInflation(double inflationRate) override;
 };
 

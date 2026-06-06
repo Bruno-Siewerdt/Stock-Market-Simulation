@@ -5,6 +5,16 @@
 
 namespace fs = std::filesystem;
 
+// ---------------  MarketStock  ----------------
+
+void MarketStock::findDelayDate(std::string strDate) {
+	int year = (int)CsvReader::getMetric(strDate, "-");
+	int month = (int)CsvReader::getMetric(strDate, "-");
+	this->delayDate = (year - 1993) * 12 + (month - 4); // starts on April 1993
+}
+
+// ------------------  Market  ------------------
+
 Market::Market() {
 	createStocks();
 }
@@ -28,6 +38,7 @@ void Market::createStocks() {
 					MarketStock stock;
 					std::string ticker = fileName.substr(0, fileName.find('_'));
 					std::string line = CsvReader::readCsvLine(ticker, 1);
+					stock.findDelayDate(line.substr(0, line.find(',')));
 					fillMetrics(line, stock);
 					stocks.insert(std::pair<std::string, MarketStock>(ticker, stock));
 				}
@@ -46,11 +57,13 @@ bool Market::updatePrices() {
 	date++;
 	bool result = true;
 	for (auto& stock : stocks) {
-		std::string line = CsvReader::readCsvLine(stock.first, date+1); // first line is header, date = 0 must read second line
-		if (line.length() < 2) {
-			result = false;
+		if (date + 1 - stock.second.delayDate > 0) {
+			std::string line = CsvReader::readCsvLine(stock.first, date + 1 - stock.second.delayDate); // first line is header, date = 0 must read second line
+			if (line.length() < 2) {
+				result = false;
+			}
+			fillMetrics(line, stock.second);
 		}
-		fillMetrics(line, stock.second);
 	}
 	return result;
 }
@@ -62,7 +75,7 @@ void Market::fillMetrics(std::string line, MarketStock& stock) {
 	// CSV header:
 	// Date,Open,High,Low,Close,Volume,Dividends,StockSplits
 	for (int i = 0; i < 8; i++) {
-		double metric = CsvReader::getMetric(line);
+		double metric = CsvReader::getMetric(line, ",");
 		switch (i) {
 		case 1:
 			stock.openPrice = metric;
@@ -83,6 +96,27 @@ void Market::fillMetrics(std::string line, MarketStock& stock) {
 			break;
 		}
 	}
+}
+
+bool Market::isStockAvailable(std::string ticker) {
+	return date + 1 > stocks[ticker].delayDate;
+}
+
+int Market::getAvailableStocksCount(std::vector<std::string> stockList) {
+	int res = 0;
+	for (std::string ticker : stockList) {
+		res += isStockAvailable(ticker);
+	}
+	return res;
+}
+
+std::string Market::getFormatedDate() {
+	int month = ((date+3) % 12) + 1;
+	return (month < 10 ? "0" : "") + std::to_string(month) + "/" + std::to_string(1993 + date / 12);
+}
+
+int Market::getDate() {
+	return date;
 }
 
 double Market::getHighPrice(std::string ticker) const {

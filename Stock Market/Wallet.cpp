@@ -12,6 +12,7 @@ void Wallet::buyStock(const std::string& ticker, const int quantity, const doubl
 		WalletStock stock;
 		stocks.insert(std::pair<std::string, WalletStock>(ticker, stock));
 	}
+	investedMoney += (double)quantity * price;
 	stocks[ticker].meanPrice = (stocks[ticker].meanPrice * (double)stocks[ticker].quantity + price * (double)quantity) / (double)(stocks[ticker].quantity + quantity);
 	stocks[ticker].quantity += quantity;
 }
@@ -35,4 +36,15 @@ void Wallet::printStocks() {
 		std::cout << stock.second.meanPrice * (double)stock.second.quantity << std::endl;
 	}
 	std::cout << "-------------------------------------------------------------------------" << std::endl;
+}
+
+void Wallet::addDividends(double dividends) {
+	totalDividends += dividends;
+}
+
+double Wallet::getTotalDividends() {
+	return totalDividends;
+}
+double Wallet::getInvestedMoney() {
+	return investedMoney;
 }

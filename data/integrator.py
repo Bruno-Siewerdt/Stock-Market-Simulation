@@ -1,7 +1,9 @@
 import yfinance as yf
 
 # Exemplo com uma ação brasileira e uma americana
-tickers = ["PETR4.SA", "BBAS3.SA"]
+tickers = ["BBAS3.SA", "PETR4.SA", "IVVB11.SA", "CMIG4.SA", "ITSA4.SA", 
+           "PSSA3.SA", "BBSE3.SA", "ITUB4.SA", "SAPR11.SA", "BBDC3.SA",
+           "^BVSP"]
 
 for t in tickers:
     ticker_obj = yf.Ticker(t)
@@ -13,4 +15,4 @@ for t in tickers:
     
     # Salva o histórico de dividendos em CSV
     # dividendos = ticker_obj.dividends
-    # sdividendos.to_csv(f"data/{t}_dividendos.csv")
+    # dividendos.to_csv(f"data/{t}_dividendos.csv")

@@ -44,9 +44,10 @@ int main() {
 	}
 	print("Historical data successfully integrated");
 
-	BacktestSimulator simulator = BacktestSimulator(StrategyType::BUY_MONTHLY);
+	BacktestSimulator simulator = BacktestSimulator();
 
-	while (simulator.simulate()) {}
+	while (simulator.simulate()) { }
+	simulator.printResults();
 
 	return 0;
 }
